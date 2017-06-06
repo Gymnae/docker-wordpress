@@ -19,7 +19,7 @@ RUN apk-install \
     	php7-exif@community \
     	php7-intl@community \
     	php7-gmp@community \
-		php7-bz2@community \
+		php7-bz2@community
 		
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
