@@ -8,6 +8,8 @@ RUN apk-install \
 		bash \
 # BusyBox sed is not sufficient for some of our sed expressions
 		sed \
+# Tar is also not sufficient, install real tar
+		tar \
 
 # install the PHP extensions we need
 		php7-soap@community \
