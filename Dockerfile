@@ -1,4 +1,4 @@
-FROM gymnae/webserverbase:master
+FROM gymnae/webserverbase:latest
 
 # blatantly copied from https://github.com/docker-library/wordpress/blob/master/php7.1/fpm-alpine/Dockerfile
 # docker-entrypoint.sh dependencies
