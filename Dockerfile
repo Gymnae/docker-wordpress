@@ -19,7 +19,7 @@ RUN apk-install \
     	php7-exif@community \
     	php7-intl@community \
     	php7-gmp@community \
-		php7-bz2@community
+		php7-bz2@community \
 		
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -36,6 +36,9 @@ VOLUME /var/www/html
 
 ENV WORDPRESS_VERSION 4.7.5
 ENV WORDPRESS_SHA1 fbe0ee1d9010265be200fe50b86f341587187302
+
+# prepare downloading the files
+RUN mkdir -p /usr/src
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
