@@ -2,8 +2,16 @@
 set -euo pipefail
 
 # go to the correct dir
-
 cd /var/www/html
+
+#link the ENV configured server config
+sudo ln -s /etc/nginx/sites-available/ssl-fastcgi-cache.com /etc/nginx/sites-enabled/$MYWP
+
+# sed things in the ssl-fastcgi-cache file
+sed -i.bak -e "s;ssl-fastcgi-cache.com;$MYWP;g" /etc/nginx/sites-enabled/$MYWP
+sed -i.bak -e "s;/sites/ssl-fastcgi-cache.com/public;/var/www/html;g" /etc/nginx/sites-enabled/$MYWP
+sed -i.bak -e "s;unix:/run/php/php7.0-fpm.sock;127.0.0.1:9000;g" /etc/nginx/sites-enabled/$MYWP
+
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
 # (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of

@@ -52,10 +52,9 @@ RUN set -ex; \
 	chown -R nginx:www-data /usr/src/wordpress
 
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY nginx_conf/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx_conf/sites-available/* /etc/nginx/sites-available/
 COPY nginx_conf/nginx.conf /etc/nginx/nginx.conf
-COPY nginx_conf/global/*.conf /etc/nginx/global/
-
+COPY nginx_conf/global/* /etc/nginx/global/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm7"]
