@@ -5,18 +5,14 @@ fastcgi_cache_path /sites/ssl-fastcgi-cache.com/cache levels=1:2 keys_zone=ssl-f
 
 server {
 	# Ports to listen on, uncomment one.
-	listen 443 ssl http2;
-	listen [::]:443 ssl http2;
+	listen 80;
+	listen [::]:80;
 
 	# Server name to listen for
 	server_name ssl-fastcgi-cache.com;
 
 	# Path to document root
 	root /sites/ssl-fastcgi-cache.com/public;
-
-	# Paths to certificate files.
-	#ssl_certificate /etc/ssl/ssl-fastcgi-cache.com.crt;
-	#ssl_certificate_key /etc/ssl/ssl-fastcgi-cache.com.key;
 
 	# File to be used as index
 	index index.php;
@@ -61,22 +57,4 @@ server {
 	# location ~ /purge(/.*) {
 	#	fastcgi_cache_purge ssl-fastcgi-cache.com "$scheme$request_method$host$1";
 	# }
-}
-
-# Redirect http to https
-server {
-	listen 80;
-	listen [::]:80;
-	server_name ssl-fastcgi-cache.com www.ssl-fastcgi-cache.com;
-
-	return 301 https://ssl-fastcgi-cache.com$request_uri;
-}
-
-# Redirect www to non-www
-server {
-	listen 443;
-	listen [::]:443;
-	server_name www.ssl-fastcgi-cache.com;
-
-	return 301 https://ssl-fastcgi-cache.com$request_uri;
 }
