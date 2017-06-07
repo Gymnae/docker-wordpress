@@ -228,5 +228,5 @@ EOPHP
 		unset "$e"
 	done
 fi
-//nginx
+#nginx
 exec "$@"
