@@ -41,7 +41,9 @@ ENV WORDPRESS_SHA1 fbe0ee1d9010265be200fe50b86f341587187302
 
 # prepare directories for download src and adjusting nginx
 RUN mkdir -p /usr/src &&\
-	mkdir -p /etc/nginx/global
+	mkdir -p /etc/nginx/global &&\
+	mkdir -p /etc/nginx/sites-enabled &&\
+	mkdir -p /etc/nginx/sites-available
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
