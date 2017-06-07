@@ -51,7 +51,7 @@ RUN set -ex; \
 	chown -R nginx:www-data /usr/src/wordpress
 
 #prepare web dirs	
-	mkdir -p /etc/nginx/global &&\
+RUN	mkdir -p /etc/nginx/global &&\
 	mkdir -p /etc/nginx/sites-enabled &&\
 	mkdir -p /etc/nginx/sites-available &&\
 	mkdir -p /var/www/logs &&\
