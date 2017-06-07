@@ -54,6 +54,7 @@ RUN set -ex; \
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY nginx-conf/default.conf /etc/nginx/conf.d/default.conf
 COPY nginx-conf/nginx.conf /etc/nginx/nginx.conf
+COPY nginx-conf/global/*.conf /etc/nginx/global/
 
 
 ENTRYPOINT ["docker-entrypoint.sh"]
