@@ -32,18 +32,15 @@ RUN { \
 		echo 'opcache.revalidate_freq=2'; \
 		echo 'opcache.fast_shutdown=1'; \
 		echo 'opcache.enable_cli=1'; \
-	} > /etc/php7/conf.d/00_opcache.ini
+	} > /etc/php7/php.ini
 
 VOLUME /var/www/html
 
 ENV WORDPRESS_VERSION 4.7.5
 ENV WORDPRESS_SHA1 fbe0ee1d9010265be200fe50b86f341587187302
 
-# prepare directories for download src and adjusting nginx
-RUN mkdir -p /usr/src &&\
-	mkdir -p /etc/nginx/global &&\
-	mkdir -p /etc/nginx/sites-enabled &&\
-	mkdir -p /etc/nginx/sites-available
+# prepare directories for wordpress source
+RUN mkdir -p /usr/src
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
@@ -52,6 +49,13 @@ RUN set -ex; \
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
 	chown -R nginx:www-data /usr/src/wordpress
+
+#prepare web dirs	
+	mkdir -p /etc/nginx/global &&\
+	mkdir -p /etc/nginx/sites-enabled &&\
+	mkdir -p /etc/nginx/sites-available &&\
+	mkdir -p /var/www/logs &&\
+	mkdir -p /var/www/cache
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY nginx_conf/sites-available/* /etc/nginx/sites-available/
