@@ -63,5 +63,7 @@ COPY nginx_conf/nginx.conf /etc/nginx/nginx.conf
 COPY nginx_conf/global/* /etc/nginx/global/
 COPY nginx_conf/global/server/* /etc/nginx/global/server/
 
+WORKDIR /var/www/html
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm7"]
