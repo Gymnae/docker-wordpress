@@ -39,8 +39,9 @@ VOLUME /var/www/html
 ENV WORDPRESS_VERSION 4.7.5
 ENV WORDPRESS_SHA1 fbe0ee1d9010265be200fe50b86f341587187302
 
-# prepare downloading the files
-RUN mkdir -p /usr/src
+# prepare directories for download src and adjusting nginx
+RUN mkdir -p /usr/src &&\
+	mkdir -p /etc/nginx/global
 
 RUN set -ex; \
 	curl -o wordpress.tar.gz -fSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz"; \
@@ -51,6 +52,9 @@ RUN set -ex; \
 	chown -R nginx:www-data /usr/src/wordpress
 
 COPY docker-entrypoint.sh /usr/local/bin/
+COPY nginx-conf/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx-conf/nginx.conf /etc/nginx/nginx.conf
+
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm7"]
