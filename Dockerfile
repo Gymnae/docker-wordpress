@@ -57,6 +57,7 @@ COPY docker-entrypoint.sh /usr/local/bin/
 COPY nginx_conf/sites-available/* /etc/nginx/sites-available/
 COPY nginx_conf/nginx.conf /etc/nginx/nginx.conf
 COPY nginx_conf/global/* /etc/nginx/global/
+COPY nginx_conf/global/server/* /etc/nginx/global/server/
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm7"]
