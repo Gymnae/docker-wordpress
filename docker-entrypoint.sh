@@ -217,7 +217,7 @@ EOPHP
 fi
 
 #link the ENV configured server config
-ln -s /etc/nginx/sites-available/ssl-fastcgi-cache.com /etc/nginx/sites-enabled/$MYWP
+ln -sf /etc/nginx/sites-available/ssl-fastcgi-cache.com /etc/nginx/sites-enabled/$MYWP
 
 # sed things in the ssl-fastcgi-cache file
 sed -i -e "s;/sites/ssl-fastcgi-cache.com/cache;/var/www/cache;g" /etc/nginx/sites-enabled/$MYWP
@@ -226,5 +226,6 @@ sed -i -e "s;/sites/ssl-fastcgi-cache.com/public;/var/www/html;g" /etc/nginx/sit
 sed -i -e "s;ssl-fastcgi-cache.com;$MYWP;g" /etc/nginx/sites-enabled/$MYWP
 sed -i -e "s;unix:/run/php/php7.0-fpm.sock;127.0.0.1:9000;g" /etc/nginx/sites-enabled/$MYWP
 
+#exec "$@"
+php-fpm7
 nginx
-exec "$@"
