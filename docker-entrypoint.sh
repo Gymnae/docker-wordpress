@@ -227,11 +227,7 @@ sed -i -e "s;ssl-fastcgi-cache.com;$MYWP;g" /etc/nginx/sites-enabled/$MYWP
 sed -i -e "s;unix:/run/php/php7.0-fpm.sock;127.0.0.1:9000;g" /etc/nginx/sites-enabled/$MYWP
 
 # sed redis config into config.php
-sed -i "/#@-/a
-	/** redis dropin */\n
-	 define( 'WP_REDIS_HOST', 'redis');\n
-	 define( 'WP_REDIS_CLIENT', 'pecl');" 
-wp-config.php
+sed -i "/#@-/a /** redis dropin */\n define( 'WP_REDIS_HOST', 'redis');\n define( 'WP_REDIS_CLIENT', 'pecl');" wp-config.php
 
 #exec "$@"
 php-fpm7
