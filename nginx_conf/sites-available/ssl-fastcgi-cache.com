@@ -100,7 +100,7 @@ if (-f $request_filename$zip_ext) {
 if ($minify_static = CME) {
     rewrite (.*) $1$zip_ext break;
 }
-rewrite /sites/ssl-fastcgi-cache.com/public/wp-content/plugins/bwp-minify/cache/minify-b(\d+)-([a-zA-Z0-9-_.]+)\.(css|js)$ /index.php?blog=$1&min_group=$2&min_type=$3 last;
+rewrite ^/wp-content/plugins/bwp-minify/cache/minify-b(\d+)-([a-zA-Z0-9-_.]+)\.(css|js)$ /index.php?blog=$1&min_group=$2&min_type=$3 last;
 
 # END BWP Minify WP Rules
 
