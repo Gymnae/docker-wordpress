@@ -52,6 +52,57 @@ server {
 		# Define caching time.
 		fastcgi_cache_valid 60m;
 	}
+	
+	# BEGIN BWP Minify WP Rules
+	# BEGIN BWP Minify Headers
+	location ~ /wp-content/plugins/bwp-minify/cache/.*\.(js|css)$ {
+	    add_header Cache-Control "public, max-age=864000";
+	    add_header Vary "Accept-Encoding";
+	    etag off;
+		}
+	location ~ /wp-content/plugins/bwp-minify/cache/.*\.js\.gz$ {
+	    gzip off;
+	    types {}	
+	    default_type application/x-javascript;
+	    add_header Cache-Control "public, max-age=864000";
+	    add_header Content-Encoding gzip;
+	    add_header Vary "Accept-Encoding";
+	    etag off;
+	}
+	location ~ /wp-content/plugins/bwp-minify/cache/.*\.css\.gz$ {
+	    gzip off;
+	    types {}
+	    default_type text/css;
+ 	   add_header Cache-Control "public, max-age=864000";
+ 	   add_header Content-Encoding gzip;
+ 	   add_header Vary "Accept-Encoding";
+ 	   etag off;
+		}
+	# END BWP Minify Headers
+	set $zip_ext "";
+	if ($http_accept_encoding ~* gzip) {
+   	 set $zip_ext ".gz";
+}
+set $minify_static "";
+if ($http_cache_control = false) {
+    set $minify_static "C";
+    set $http_cache_control "";
+}
+if ($http_cache_control !~* no-cache) {
+    set $minify_static "C";
+}
+if ($http_if_modified_since = false) {
+    set $minify_static "${minify_static}M";
+}
+if (-f $request_filename$zip_ext) {
+    set $minify_static "${minify_static}E";
+}
+if ($minify_static = CME) {
+    rewrite (.*) $1$zip_ext break;
+}
+rewrite ^/wp-content/plugins/bwp-minify/cache/minify-b(\d+)-([a-zA-Z0-9-_.]+)\.(css|js)$ /index.php?blog=$1&min_group=$2&min_type=$3 last;
+
+# END BWP Minify WP Rules
 
 	# Uncomment if using the fastcgi_cache_purge module and Nginx Helper plugin (https://wordpress.org/plugins/nginx-helper/)
 	# location ~ /purge(/.*) {
