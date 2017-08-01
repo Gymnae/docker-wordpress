@@ -1,7 +1,8 @@
 # Define path to cache and memory zone. The memory zone should be unique.
 # keys_zone=ssl-fastcgi-cache.com:100m creates the memory zone and sets the maximum size in MBs.
 # inactive=60m will remove cached items that haven't been accessed for 60 minutes or more.
-fastcgi_cache_path /sites/ssl-fastcgi-cache.com/cache levels=1:2 keys_zone=ssl-fastcgi-cache.com:100m inactive=60m;
+fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=MYSITE:100m inactive=60m;
+fastcgi_cache_key "$scheme$request_method$host$request_uri";
 
 server {
 	# Ports to listen on, uncomment one.
@@ -47,10 +48,13 @@ server {
 		fastcgi_no_cache $skip_cache;
 
 		# Define memory zone for caching. Should match key_zone in fastcgi_cache_path above.
-		fastcgi_cache ssl-fastcgi-cache.com;
+		#fastcgi_cache ssl-fastcgi-cache.com;
 
 		# Define caching time.
-		fastcgi_cache_valid 60m;
+		#fastcgi_cache_valid 60m;
+		
+		fastcgi_cache MYSITE;
+		fastcgi_cache_valid 200 60m;
 	}
 	
 
