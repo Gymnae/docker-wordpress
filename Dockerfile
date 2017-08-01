@@ -57,7 +57,8 @@ RUN	mkdir -p /etc/nginx/global &&\
 	mkdir -p /etc/nginx/sites-enabled &&\
 	mkdir -p /etc/nginx/sites-available &&\
 	mkdir -p /var/www/logs &&\
-	mkdir -p /var/www/cache
+	mkdir -p /var/www/cache &&\
+	mkdir -p /var/run/nginx-cache
 
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY nginx_conf/sites-available/* /etc/nginx/sites-available/
