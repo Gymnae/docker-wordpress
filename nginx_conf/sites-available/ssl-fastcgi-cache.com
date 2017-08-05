@@ -3,6 +3,8 @@
 # inactive=60m will remove cached items that haven't been accessed for 60 minutes or more.
 fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=MYSITE:100m inactive=60m;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
+fastcgi_cache_use_stale error timeout invalid_header http_500;
+fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
 
 server {
 	# Ports to listen on, uncomment one.
@@ -30,6 +32,8 @@ server {
 
 	# SSL rules
 	include global/server/ssl.conf;
+	
+	set $skip_cache 0;
 
 	location / {
 		try_files $uri $uri/ /index.php?$args;
@@ -57,6 +61,9 @@ server {
 		fastcgi_cache_valid 200 60m;
 	}
 	
+	location ~ /purge(/.*) {
+	    fastcgi_cache_purge MYSITE "$scheme$request_method$host$1";
+	}	
 
 
 	# Uncomment if using the fastcgi_cache_purge module and Nginx Helper plugin (https://wordpress.org/plugins/nginx-helper/)
