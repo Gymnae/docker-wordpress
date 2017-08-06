@@ -62,7 +62,7 @@ server {
 		include global/fastcgi-params.conf;
 
 		# Change socket if using PHP pools or PHP 5
-		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+		fastcgi_pass 127.0.0.1:9000;
 
 		# Skip cache based on rules in global/server/fastcgi-cache.conf.
 		fastcgi_cache_bypass $skip_cache;
