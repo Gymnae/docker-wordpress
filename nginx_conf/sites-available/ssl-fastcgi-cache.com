@@ -61,9 +61,9 @@ server {
 		fastcgi_cache_valid 200 60m;
 	}
 	
-	#location ~ /purge(/.*) {
-	#    fastcgi_cache_purge MYSITE "$scheme$request_method$host$1";
-	#}	
+	location ~ /purge(/.*) {
+	    fastcgi_cache_purge MYSITE "$scheme$request_method$host$1";
+	}	
 
 
 	# Uncomment if using the fastcgi_cache_purge module and Nginx Helper plugin (https://wordpress.org/plugins/nginx-helper/)
