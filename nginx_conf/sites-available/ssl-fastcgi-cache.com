@@ -62,7 +62,7 @@ server {
 		include global/fastcgi-params.conf;
 
 		# Change socket if using PHP pools or PHP 5
-		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
 
 		# Skip cache based on rules in global/server/fastcgi-cache.conf.
 		fastcgi_cache_bypass $skip_cache;
@@ -98,11 +98,7 @@ location ~* wp-config.php {
 	# Deny access to wp-login.php
     location = /wp-login.php {
     limit_req zone=one burst=1 nodelay;
-    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
 }
 
-	# Uncomment if using the fastcgi_cache_purge module and Nginx Helper plugin (https://wordpress.org/plugins/nginx-helper/)
-	# location ~ /purge(/.*) {
-	#	fastcgi_cache_purge ssl-fastcgi-cache.com "$scheme$request_method$host$1";
-	# }
 }
