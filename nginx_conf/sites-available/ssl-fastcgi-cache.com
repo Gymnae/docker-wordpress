@@ -91,6 +91,16 @@ server {
         log_not_found off;
         expires max;
     }
+  
+  # Deny public access to wp-config.php
+location ~* wp-config.php {
+    deny all;
+}
+	# Deny access to wp-login.php
+    location = /wp-login.php {
+    limit_req zone=one burst=1 nodelay;
+    fastcgi_pass 127.0.0.1:9000;
+}
 
 	# Uncomment if using the fastcgi_cache_purge module and Nginx Helper plugin (https://wordpress.org/plugins/nginx-helper/)
 	# location ~ /purge(/.*) {
