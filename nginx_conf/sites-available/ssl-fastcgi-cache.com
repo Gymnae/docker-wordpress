@@ -4,6 +4,7 @@
 fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=MYSITE:500m inactive=600m;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 fastcgi_cache_use_stale error timeout invalid_header http_500;
+upload_progress proxied 1m;
 
 server {
 	# Ports to listen on, uncomment one.
