@@ -83,6 +83,15 @@ server {
 	}	
 
 
+    location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg
+                      |gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi
+                      |wav|bmp|rtf)$ {
+
+        access_log off;
+        log_not_found off;
+        expires max;
+    }
+
 	# Uncomment if using the fastcgi_cache_purge module and Nginx Helper plugin (https://wordpress.org/plugins/nginx-helper/)
 	# location ~ /purge(/.*) {
 	#	fastcgi_cache_purge ssl-fastcgi-cache.com "$scheme$request_method$host$1";
