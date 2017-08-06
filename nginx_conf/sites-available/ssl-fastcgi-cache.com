@@ -33,6 +33,24 @@ server {
 	include global/server/ssl.conf;
 	
 	set $skip_cache 0;
+	
+	# POST requests and urls with a query string should always go to PHP
+    if ($request_method = POST) {
+        set $skip_cache 1;
+    }
+    if ($query_string != "") {
+        set $skip_cache 1;
+    }
+
+    # Don't cache uris containing the following segments
+    if ($request_uri ~* "/wp-admin/|/xmlrpc.php|wp-.*.php|/feed/|index.php|sitemap(_index)?.xml") {
+        set $skip_cache 1;
+    }
+
+    # Don't use the cache for logged in users or recent commenters
+    if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in") {
+        set $skip_cache 1;
+    }
 
 	location / {
 		try_files $uri $uri/ /index.php?$args;
@@ -44,7 +62,6 @@ server {
 
 		# Change socket if using PHP pools or PHP 5
 		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-		#fastcgi_pass unix:/var/run/php5-fpm.sock;
 
 		# Skip cache based on rules in global/server/fastcgi-cache.conf.
 		fastcgi_cache_bypass $skip_cache;
@@ -58,6 +75,7 @@ server {
 		
 		fastcgi_cache MYSITE;
 		fastcgi_cache_valid 200 60m;
+		
 	}
 	
 	location ~ /purge(/.*) {
