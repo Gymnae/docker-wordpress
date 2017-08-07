@@ -92,9 +92,9 @@ location ~* wp-config.php {
     deny all;
 }
 	# Deny access to wp-login.php
-   location = /wp-login.php {
-    limit_req zone=MYSITE2 burst=1 nodelay;
-    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-}
+#   location = /wp-login.php {
+#    limit_req zone=MYSITE2 burst=1 nodelay;
+#    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+#}
 
 }
