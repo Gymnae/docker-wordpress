@@ -2,7 +2,7 @@
 # keys_zone=ssl-fastcgi-cache.com:100m creates the memory zone and sets the maximum size in MBs.
 # inactive=60m will remove cached items that haven't been accessed for 60 minutes or more.
 fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=MYSITE:500m inactive=600m;
-fastcgi_cache_path /var/run/nginx-cache2 levels=1:2 keys_zone=one:100m inactive=60m;
+fastcgi_cache_path /var/run/nginx-cache2 levels=1:2 keys_zone=MYSITE2:100m inactive=60m;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 fastcgi_cache_use_stale error timeout invalid_header http_500;
 upload_progress proxied 1m;
@@ -93,7 +93,7 @@ location ~* wp-config.php {
 }
 	# Deny access to wp-login.php
    location = /wp-login.php {
-    limit_req zone=one burst=1 nodelay;
+    limit_req zone=MYSITE2 burst=1 nodelay;
     fastcgi_pass unix:/run/php/php7.0-fpm.sock;
 }
 
