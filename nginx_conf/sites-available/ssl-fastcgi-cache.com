@@ -48,17 +48,20 @@ server {
         set $cache_uri 'nullcache';
     }
 
-    # bypass cache if the cookies containing the following strings
+     # bypass cache if the cookies containing the following strings
     if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_logged_in") {
         set $cache_uri 'nullcache';
     }
 
+    # custom sub directory e.g. /blog
+    set $custom_subdir '';
+
     # default html file
-    set $cache_enabler_uri '$/wp-content/cache/cache-enabler/${http_host}${cache_uri}index.html';
+    set $cache_enabler_uri '${custom_subdir}/wp-content/cache/cache-enabler/${http_host}${cache_uri}index.html';
 
     # webp html file
     if ($http_accept ~* "image/webp") {
-        set $cache_enabler_uri '$/wp-content/cache/cache-enabler/${http_host}${cache_uri}index-webp.html';
+        set $cache_enabler_uri '${custom_subdir}/wp-content/cache/cache-enabler/${http_host}${cache_uri}index-webp.html';
     }
 
 	location / {
@@ -77,7 +80,7 @@ server {
 		fastcgi_no_cache $skip_cache;
 
 		# Define memory zone for caching. Should match key_zone in fastcgi_cache_path above.
-		#fastcgi_cache ssl-fastcgi-cache.com;
+		fastcgi_cache MYSITE;
 
 		# Define caching time.
 		#fastcgi_cache_valid 60m;
