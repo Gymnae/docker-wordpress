@@ -33,6 +33,8 @@ server {
 	# SSL rules
 	include global/server/ssl.conf;
     
+    set $skip_cache 0;  
+    
      set $cache_uri $request_uri;
 
     # bypass cache if POST requests or URLs with a query string
