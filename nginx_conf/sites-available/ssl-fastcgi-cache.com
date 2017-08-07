@@ -81,11 +81,7 @@ server {
 
 		# Define memory zone for caching. Should match key_zone in fastcgi_cache_path above.
 		fastcgi_cache MYSITE;
-
-		# Define caching time.
-		#fastcgi_cache_valid 60m;
 		
-		fastcgi_cache MYSITE;
 		fastcgi_cache_valid 200 60m;
 		
 	}
