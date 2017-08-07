@@ -66,10 +66,6 @@ server {
 		# Change socket if using PHP pools or PHP 5
 		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
 
-		# Skip cache based on rules in global/server/fastcgi-cache.conf.
-		fastcgi_cache_bypass $skip_cache;
-		fastcgi_no_cache $skip_cache;
-
 		fastcgi_cache MYSITE;
 		fastcgi_cache_valid 200 60m;
 		
