@@ -94,11 +94,15 @@ server {
 	}	
 
 
-    location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$
+    location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$
     {
         access_log off;
         log_not_found off;
         expires max;
+    }
+    
+     location ~*  \.(pdf|css|html|js|swf)$ {
+        expires 30d;
     }
   
   # Deny public access to wp-config.php
