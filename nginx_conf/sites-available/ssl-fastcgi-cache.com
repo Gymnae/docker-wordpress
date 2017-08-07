@@ -34,23 +34,33 @@ server {
 	include global/server/ssl.conf;
 	
 	set $skip_cache 0;
-	
-	# POST requests and urls with a query string should always go to PHP
+    
+     set $cache_uri $request_uri;
+
+    # bypass cache if POST requests or URLs with a query string
     if ($request_method = POST) {
-        set $skip_cache 1;
+        set $cache_uri 'nullcache';
     }
     if ($query_string != "") {
-        set $skip_cache 1;
+        set $cache_uri 'nullcache';
     }
 
-    # Don't cache uris containing the following segments
-    if ($request_uri ~* "/wp-admin/|/xmlrpc.php|wp-.*.php|/feed/|index.php|sitemap(_index)?.xml") {
-        set $skip_cache 1;
+    # bypass cache if URLs containing the following strings
+    if ($request_uri ~* "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php|wp-.*.php|/feed/|index.php|wp-comments-popup.php|wp-links-opml.php|wp-locations.php|sitemap(_index)?.xml|[a-z0-9_-]+-sitemap([0-9]+)?.xml)") {
+        set $cache_uri 'nullcache';
     }
 
-    # Don't use the cache for logged in users or recent commenters
-    if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in") {
-        set $skip_cache 1;
+    # bypass cache if the cookies containing the following strings
+    if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_logged_in") {
+        set $cache_uri 'nullcache';
+    }
+
+    # default html file
+    set $cache_enabler_uri '$/wp-content/cache/cache-enabler/${http_host}${cache_uri}index.html';
+
+    # webp html file
+    if ($http_accept ~* "image/webp") {
+        set $cache_enabler_uri '$/wp-content/cache/cache-enabler/${http_host}${cache_uri}index-webp.html';
     }
 
 	location / {
