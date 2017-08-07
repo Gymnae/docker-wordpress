@@ -2,6 +2,7 @@
 # keys_zone=ssl-fastcgi-cache.com:100m creates the memory zone and sets the maximum size in MBs.
 # inactive=60m will remove cached items that haven't been accessed for 60 minutes or more.
 fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=MYSITE:500m inactive=60m;
+fastcgi_cache_path /var/run/nginx-cache2 levels=1:2 keys_zone=MYSITE:100m inactive=60m;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 fastcgi_cache_use_stale error timeout invalid_header http_500;
 upload_progress proxied 1m;
@@ -34,37 +35,6 @@ server {
 	include global/server/ssl.conf;
     
     set $skip_cache 0;  
-    
-     set $cache_uri $request_uri;
-
-    # bypass cache if POST requests or URLs with a query string
-    if ($request_method = POST) {
-        set $cache_uri 'nullcache';
-    }
-    if ($query_string != "") {
-        set $cache_uri 'nullcache';
-    }
-
-    # bypass cache if URLs containing the following strings
-    if ($request_uri ~* "(/wp-admin/|/xmlrpc.php|/wp-(app|cron|login|register|mail).php|wp-.*.php|/feed/|index.php|wp-comments-popup.php|wp-links-opml.php|wp-locations.php|sitemap(_index)?.xml|[a-z0-9_-]+-sitemap([0-9]+)?.xml)") {
-        set $cache_uri 'nullcache';
-    }
-
-     # bypass cache if the cookies containing the following strings
-    if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_logged_in") {
-        set $cache_uri 'nullcache';
-    }
-
-    # custom sub directory e.g. /blog
-    set $custom_subdir '';
-
-    # default html file
-    set $cache_enabler_uri '${custom_subdir}/wp-content/cache/cache-enabler/${http_host}${cache_uri}index.html';
-
-    # webp html file
-    if ($http_accept ~* "image/webp") {
-        set $cache_enabler_uri '${custom_subdir}/wp-content/cache/cache-enabler/${http_host}${cache_uri}index-webp.html';
-    }
 
 	location / {
 		try_files $uri $uri/ /index.php?$args;
@@ -108,10 +78,10 @@ server {
 location ~* wp-config.php {
     deny all;
 }
-#	# Deny access to wp-login.php
-#    location = /wp-login.php {
-#    limit_req zone=one burst=1 nodelay;
-#    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-#}
+	# Deny access to wp-login.php
+    location = /wp-login.php {
+   limit_req zone=MYSITE2 burst=1 nodelay;
+   fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+}
 
 }
