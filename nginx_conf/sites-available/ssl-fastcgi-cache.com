@@ -5,7 +5,6 @@ fastcgi_cache_path /var/run/nginx-cache levels=1:2 keys_zone=MYSITE:500m inactiv
 fastcgi_cache_path /var/run/nginx-cache2 levels=1:2 keys_zone=MYSITE2:100m inactive=60m;
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 fastcgi_cache_use_stale error timeout invalid_header http_500;
-upload_progress proxied 1m;
 
 server {
 	# Ports to listen on, uncomment one.
@@ -29,7 +28,7 @@ server {
 	include global/server/defaults.conf;
 
 	# Fastcgi cache rules
-	include global/server/fastcgi-cache.conf;
+	#include global/server/fastcgi-cache.conf;
 
 	# SSL rules
 	include global/server/ssl.conf;
@@ -65,9 +64,12 @@ server {
 
 		# Change socket if using PHP pools or PHP 5
 		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+		
+		fastcgi_cache_bypass $skip_cache;
+	        fastcgi_no_cache $skip_cache;
 
 		fastcgi_cache MYSITE;
-		fastcgi_cache_valid 200 60m;
+		fastcgi_cache_valid 60m;
 		
 	}
 	
@@ -82,6 +84,10 @@ server {
         log_not_found off;
         expires max;
     }
+    
+    location = /robots.txt { access_log off; log_not_found off; }
+    location ~ /\. { deny  all; access_log off; log_not_found off; }
+    
   
   # Deny public access to wp-config.php
 location ~* wp-config.php {
