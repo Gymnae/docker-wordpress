@@ -27,6 +27,9 @@ server {
 
 	# Fastcgi cache rules
 	include global/server/fastcgi-cache.conf;
+	
+	# cache rules for "cache enabler" wordpress plugin
+	#include global/server/wp-cache-enabler.conf;
 
 	# SSL rules
 	include global/server/ssl.conf;
