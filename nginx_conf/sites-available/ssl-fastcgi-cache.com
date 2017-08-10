@@ -33,11 +33,7 @@ server {
 
 	# SSL rules
 	include global/server/ssl.conf;
-	
-	location / {
-		try_files $uri $uri/ /index.php?$args;
-		 gzip_static on; # this directive is not required but recommended
-	}
+
 
     location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|css|rss|atom|js|jpg|jpeg|gif|png|ico|zip|tgz|gz|webp|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$
     {
