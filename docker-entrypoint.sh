@@ -224,7 +224,6 @@ sed -i -e "s;/sites/ssl-fastcgi-cache.com/cache;/var/www/cache;g" /etc/nginx/sit
 sed -i -e "s;/sites/ssl-fastcgi-cache.com/logs;/var/www/logs;g" /etc/nginx/sites-enabled/$MYWP
 sed -i -e "s;/sites/ssl-fastcgi-cache.com/public;/var/www/html;g" /etc/nginx/sites-enabled/$MYWP
 sed -i -e "s;ssl-fastcgi-cache.com;$MYWP;g" /etc/nginx/sites-enabled/$MYWP
-sed -i -e "s;unix:/run/php/php7.0-fpm.sock;unix:/var/run/php-fpm7.sock;;g" /etc/nginx/sites-enabled/$MYWP
 
 # sed pathinfo fix to php7
 sed -i '1i cgi.fix_pathinfo=0' /etc/php7/php.ini
