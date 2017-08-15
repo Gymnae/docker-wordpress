@@ -231,6 +231,9 @@ sed -i '1i cgi.fix_pathinfo=0' /etc/php7/php.ini
 # sed redis config into config.php
 sed -i "/#@-/a /** redis dropin */\n define( 'WP_REDIS_HOST', 'redis');\n define( 'WP_REDIS_CLIENT', 'pecl');" wp-config.php
 
+# edit cache enabler into config.php - useful if you have a plugin like cache enabler installed
+sed -i "/<?php/a define('WP_CACHE', true);" wp-config.php
+
 #exec "$@"
 php-fpm7
 nginx -g 'daemon off;'
