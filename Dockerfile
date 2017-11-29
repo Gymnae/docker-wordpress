@@ -38,7 +38,7 @@ RUN { \
 
 VOLUME /var/www/html
 
-ENV WORDPRESS_VERSION 4.8.1
+ENV WORDPRESS_VERSION 4.9
 ENV WORDPRESS_SHA1 5376cf41403ae26d51ca55c32666ef68b10e35a4
 
 # prepare directories for wordpress source
