@@ -38,8 +38,8 @@ RUN { \
 
 VOLUME /var/www/html
 
-ENV WORDPRESS_VERSION 4.9
-ENV WORDPRESS_SHA1 6127bd2aed7b7c0a2c1789c8f17a2222a9081d6c
+ENV WORDPRESS_VERSION 4.9.4
+ENV WORDPRESS_SHA1 0e630bf940fd586b10e099cd9195b3e825fb194c
 
 # prepare directories for wordpress source
 RUN mkdir -p /usr/src
